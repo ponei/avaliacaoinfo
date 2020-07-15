@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>trabalho de informatica</title>
+</head>
+
+<body>
+    <form id="formAtividades" action="/atividade.php" onsubmit="return checar_inputs()">
+        <select name="atividade" id="atividade" onchange="atualizar_inputs()">
+            <option disabled selected value> -- selecione a atividade -- </option>
+            <option value="1">raio</option>
+            <option value="2">soma</option>
+            <option value="3">produto</option>
+            <option value="4">tabuada</option>
+        </select>
+        <input type="submit" value="fazer">
+    </form>
+
+    <script>
+        function atualizar_inputs() {
+            let atividadeNum = document.getElementById("atividade").value;
+
+            if (document.getElementById("textoAtividade") != null) { //se elemento de input ja existir, deleta pra criar outro certo
+                let elem = document.getElementById("textoAtividade"); //pega elemento por id
+                elem.parentElement.removeChild(elem); //deleta
+            }
+            if (document.getElementById("valorAtividade") != null) { //se elemento de data existir, deleta
+                let elem = document.getElementById("valorAtividade"); //elemento por id etc etc..
+                elem.parentElement.removeChild(elem);
+            }
+
+            if (atividadeNum != '2') {
+                let formInput = document.getElementById('formAtividades');
+                let novoText = document.createElement("input"); //declara input de texto
+                novoText.setAttribute("type", "text");
+                novoText.setAttribute("id", "textoAtividade");
+                novoText.setAttribute("name", "texto");
+                formInput.appendChild(novoText);
+                if (atividadeNum == '3') {
+                    let novoNumber = document.createElement("input"); //declara input de numero
+                    novoNumber.setAttribute("type", "number");
+                    novoNumber.setAttribute("id", "valorAtividade");
+                    novoNumber.setAttribute("name", "valor");
+                    formInput.appendChild(novoNumber);
+                }
+            }
+        }
+
+        function checar_inputs() {
+            let atividadeNum = document.getElementById("atividade").value;
+            if (atividadeNum == '3' || atividadeNum == '4') {
+                return true;
+            } else {
+                switch (atividadeNum) {
+                    case '1':
+                        let textInput = document.getElementById('textoAtividade');
+                        atividade_raio(textInput.value);
+                        break;
+
+                    case '2':
+                        atividade_soma();
+                        break;
+                }
+                return false;
+            }
+
+        }
+
+        function atividade_soma() {
+            let total = 0; //var pra ir adicionando
+            for (let i = 1; 500 >= i; i++) { //loop até 500
+                if (i % 3 == 0 && i % 2 == 1) { //se mod de 3 é 0, é multiplo de 3 && se mod de 2 é 1, é impar
+                    total += i;
+                }
+            }
+            alert(total);
+        }
+
+
+        function atividade_raio(r) {
+            //raio pra uma variavel
+            let raio = r;
+
+            //raio é nada, pessoa só clicou ok
+            //transformamos em numero só depois para checar
+            if (raio === null) {
+                alert("valor invalido");
+            } else {
+                //raio pra float
+                raio = parseFloat(raio);
+                //raio é NaN (not a number)
+                if (isNaN(raio)) {
+                    alert("valor invalido");
+                } else {
+                    //P = 2.pi.r
+                    let perimetro = 2 * Math.PI * raio;
+                    //A = PI . r²
+                    let area = Math.PI * Math.pow(raio, 2);
+                    //D = 2 . r
+                    let diametro = 2 * raio;
+
+                    alert(`raio = ${raio}\n\nperimetro -> ${perimetro}\narea -> ${area}\ndiametro -> ${diametro}`);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
